@@ -1,0 +1,7 @@
+1001            4000.0                                          3.0 Account             
+1003            400.0                                           3.0 Account             
+Account_Number  Initial_Balance($)          Annual_Interest_Rate(%) Account_Type        
+==============================================================================
+      1001             10000.00                 3.50                CDAccount
+      1003             20000.00                 4.00                CDAccount
+      1005              2000.00                 4.50                CDAccount
