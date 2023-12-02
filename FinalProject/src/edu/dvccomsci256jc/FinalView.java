@@ -33,7 +33,6 @@ public class FinalView implements viewInterface{
 	Label [] list = new Label[4];
 	FinalModel model = new FinalModel();
 	RecomendationView recView = new RecomendationView();
-	userInformation userInfo = new userInformation();
 	SongStructure songStruct = new SongStructure();
 	
 	public FinalView() {
@@ -70,10 +69,6 @@ public class FinalView implements viewInterface{
 	
 	recBtn.setOnAction(e -> {
 	   openRec();
-	});
-	
-	helpBtn.setOnAction(e -> {
-		openManual();
 	});
 	
 	songStructBtn.setOnAction(e ->{
@@ -138,10 +133,6 @@ public class FinalView implements viewInterface{
 	
 	public void openRec() {
 		recView.show();
-	}
-	
-	public void openManual() {
-		userInfo.show();
 	}
 	
 	public void openSongStructure() {
