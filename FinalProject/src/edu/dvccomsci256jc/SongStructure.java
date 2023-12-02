@@ -37,15 +37,11 @@ public class SongStructure extends Stage {
         Button songBreakBtn = createButton("Break");
         Button dalSegnoBtn = createButton("Dal Segno");
         Button codaBtn = createButton("Coda");
-        Button saveBtn = createButton("Save");
 
     	Label [] labels = {new Label("Label 1"), new Label("Label 2")};
         ObservableList<Label> prevStructure = FXCollections.observableArrayList(labels);
     	ComboBox<Label> cbo = new ComboBox<>(prevStructure);
 
-    	cbo.setOnAction(e -> {
-    		previous();
-    	});
         // Adding functionality to the buttons
         verseBtn.setOnAction(e -> generateAndMakeDraggableLabel("Verse"));
         chorusBtn.setOnAction(e -> generateAndMakeDraggableLabel("Chorus"));
@@ -96,9 +92,5 @@ public class SongStructure extends Stage {
             xOffset[0] = e.getSceneX();
             yOffset[0] = e.getSceneY();
         });
-    }
-    
-    private void previous() {
-    	
     }
 }

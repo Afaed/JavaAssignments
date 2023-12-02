@@ -30,20 +30,23 @@ public class Chords {
         //TO DO: Finish establishing connection of database. probably add it to javabooks?
         //Also-add username and password for later. 
         
-        String jdbcUrl = "jdbc:mysql://localhost:3306/your_database_name";
-	     String username = "your_username";
-	     String password = "your_password";
+        String jdbcUrl = "jdbc:mysql://localhost:3306/UserDatabase";
+	     String username = "root";
+	     String password = "Test1234!";
 	     
 	     try(Connection c = DriverManager.getConnection(jdbcUrl, username, password)) {
-	    	 String getQuery = "SELECT I, II, III, IV, V, VI, VII FROM chords WHERE I = " + keyRoot; //Query statement
+	    	 String getQuery = "SELECT I, II, III, IV, V, VI, VII FROM chords WHERE I = \'" + keyRoot + "\'"; //Query statement
 	    	 try (PreparedStatement prep = c.prepareStatement(getQuery))//Preoared statement
 	    	 {
+	    		 prep.setString(1, keyRoot);
 	    		 try(ResultSet r = prep.executeQuery()) //the result set
 	    		 {
-		    		 while(r.next())
-		    		 {
-		    		 chordOrder.add(r.getString(keyRoot)); //adds the results to the chord order. 
-		    		 }
+	    			 if (r.next()) {
+	                        // Add all columns to the generatedChords list
+	                        for (int i = 1; i <= 7; i++) {
+	                            chordOrder.add(r.getString(i));
+	                        }
+	                    }
 	    		 }
 	    	 }
 	     } catch (SQLException ex) {
@@ -52,9 +55,4 @@ public class Chords {
 
         return chordOrder;
     }
-
-    //This plays a sound of the chord. Might have to make a database for this too.
-	public void playSound() {
-		
-	}
 }

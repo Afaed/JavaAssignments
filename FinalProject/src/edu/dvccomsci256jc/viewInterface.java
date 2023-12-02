@@ -1,11 +1,9 @@
 package edu.dvccomsci256jc;
 
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public interface viewInterface {
-	public Scene getScene();
 	Label recLbl = new Label("Reccomended: ");
 	Label recRootLbl = new Label("Key: ");
 	Label recSecondLbl = new Label("II: ");
