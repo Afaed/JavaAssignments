@@ -1,5 +1,7 @@
 package edu.dvccomsci256jc;
 
+import java.util.ArrayList;
+
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -9,8 +11,13 @@ import javafx.stage.Stage;
 
 public class RecomendationView extends Stage implements viewInterface{
 	Scene scene;
+	Chords chord;
+	String key;
+	public RecomendationView(String userRoot) {
+		key = userRoot;
+	}
 	public RecomendationView() {
-		
+		 
 		//User fields and labels.
 		rootChordTf.setEditable(false);
 		secondTf.setEditable(false);
@@ -20,6 +27,7 @@ public class RecomendationView extends Stage implements viewInterface{
 		sixthTf.setEditable(false);
 		seventhTf.setEditable(false);
 		
+		rootChordTf.setText(key);
 		GridPane gridPane =  new GridPane();
 		gridPane.setHgap(10);
 		gridPane.setVgap(10);
@@ -55,4 +63,20 @@ public class RecomendationView extends Stage implements viewInterface{
 	    setScene(scene);
 	}
 	
+	public void generateProg() {
+		Chords chord = new Chords(key);
+		ArrayList<String> prog = chord.generateChordProg();
+		if (prog.size() >= 7) {
+            rootChordTf.setText(prog.get(0));
+            secondTf.setText(prog.get(1));
+            thirdTf.setText(prog.get(2));
+            fourthTf.setText(prog.get(3));
+            fifthTf.setText(prog.get(4));
+            sixthTf.setText(prog.get(5));
+            seventhTf.setText(prog.get(6));
+        } else {
+        	FinalModel m = new FinalModel();
+        	m.displayErrorMessage("Not enough chords in progression");
+        }
+    }
 }

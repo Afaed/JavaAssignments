@@ -79,7 +79,7 @@ public class SongStructure extends Stage {
         final double[] xOffset = new double[1];
         final double[] yOffset = new double[1];
 
-        label.setOnMousePressed(e -> {
+        label.setOnMouseDragged(e -> {
             xOffset[0] = e.getSceneX();
             yOffset[0] = e.getSceneY();
         });

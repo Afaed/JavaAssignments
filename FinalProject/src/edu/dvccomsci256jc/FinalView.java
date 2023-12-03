@@ -1,26 +1,14 @@
 package edu.dvccomsci256jc;
-import javafx.scene.control.TextField;
+
 import javafx.scene.control.Label;
-import javafx.scene.Node;
-import javafx.scene.Parent;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.util.List;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
@@ -30,41 +18,35 @@ public class FinalView implements viewInterface{
 	private Scene scene;
 	BorderPane borderPane = new BorderPane();
 	StackPane stack = new StackPane();
-	Label [] list = new Label[4];
+	
+	private int pos = 0;
 	FinalModel model = new FinalModel();
-	RecomendationView recView = new RecomendationView();
+	RecomendationView recView = new RecomendationView("");
 	SongStructure songStruct = new SongStructure();
 	
 	public FinalView() {
-
-	Label[] generatedLabels = generateLabels(list, list.length);
-	ObservableList<Label> prevProgressions = FXCollections.observableArrayList(generatedLabels);
-	ComboBox<Label> cbo = new ComboBox<>(prevProgressions);
 
 	//Buttons
 	Button saveBtn = new Button("Save");
 	Button LoadLastBtn = new Button("Last Record");
 	Button recBtn = new Button("Recommended Progression");
-	Button helpBtn = new Button("User Information");
+	Button nextBtn = new Button("Next Prog");
 	Button songStructBtn = new Button("Song Structure");
+	Button deleteBtn = new Button("Delete");
 	
-	helpBtn.setPrefWidth(300);
-	helpBtn.setPrefHeight(60);
+	nextBtn.setOnAction(e ->{
+		 pos++;
+         model.next(pos);
+         recView.generateProg();
+	});
+	
 	saveBtn.setOnAction(e -> {
-		model.saveProgression();
+		model.save();
 	});
 	
 	LoadLastBtn.setOnAction(e -> {
-	    model.loadProgression(); // Load the previous progression
-
-	    // Assuming your model has a method to get the updated list of progressions:
-	    List<Label> updatedProgressions = model.getUpdatedProgressions();
-
-	    // Clear the existing items in the observable list
-	    prevProgressions.clear();
-
-	    // Add the updated progressions to the observable list
-	    prevProgressions.addAll(updatedProgressions);
+		pos--;
+		model.loadLast(pos); // Load the previous progression
 	});
 	
 	recBtn.setOnAction(e -> {
@@ -73,6 +55,10 @@ public class FinalView implements viewInterface{
 	
 	songStructBtn.setOnAction(e ->{
 		openSongStructure();
+	});
+	
+	deleteBtn.setOnAction(e -> {
+		model.delete(1);
 	});
 	GridPane gridPane = new GridPane();
 	
@@ -104,23 +90,18 @@ public class FinalView implements viewInterface{
     gridPane.add(userSixthTf, col, 6);
     gridPane.add(userSeventhTf, col, 7);
     
-    //Panes for the help pane, buttonSection.
-    HBox homePane = new HBox(5);
-    
-    homePane.getChildren().addAll(helpBtn);
-    
+ 
     VBox buttonSection = new VBox(5);
     buttonSection.setPadding(new Insets(10));
     
     buttonSection.setSpacing(8);
     buttonSection.setAlignment(Pos.CENTER);
     buttonSection.setStyle("-fx-background-color: #5C5CFF;");
-    buttonSection.getChildren().addAll(saveBtn, LoadLastBtn, cbo, recBtn, songStructBtn);
+    buttonSection.getChildren().addAll(saveBtn, nextBtn, LoadLastBtn, deleteBtn, recBtn, songStructBtn);
     
     //The scene building here
 	borderPane.setLeft(buttonSection);
 	borderPane.setCenter(gridPane);
-	borderPane.setRight(homePane);
     gridPane.setAlignment(Pos.CENTER);
 	scene = new Scene(borderPane, 1000, 400);
 	
@@ -132,12 +113,15 @@ public class FinalView implements viewInterface{
 	}
 	
 	public void openRec() {
-		recView.show();
+		String userRootChord = model.getUserRootChord();
+        recView = new RecomendationView(userRootChord);
+        recView.show();
 	}
 	
 	public void openSongStructure() {
 		songStruct.show();
 	}
+	
 	public Label[] generateLabels(Label list[], int n) {
 	    Label[] newArr = new Label[n + 1];
 	    //replace this with the real number of progressions saved
@@ -151,5 +135,4 @@ public class FinalView implements viewInterface{
 
 	    return newArr;
 	}
-	
 }
