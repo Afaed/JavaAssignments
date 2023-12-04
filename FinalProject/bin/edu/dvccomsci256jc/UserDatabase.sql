@@ -1,20 +1,23 @@
-CREATE DATABASE chordBase
-CHARACTER SET utf8;
+CREATE DATABASE chordBase CHARACTER SET utf8;
 
+DROP DTABASE chordBase IF EXSISTS chordBase;
 USE chordBase;
-Create Table chords{
-I VARCHAR(10) Primary Key Auto_Increment,
-II VARCHAR(10),
-III VARCHAR(10),
-IV VARCHAR(10),
-V VARCHAR(10),
-VI VARCHAR(10),
-VII VARCHAR(10)
-}
 
-Create Table userProg{
-cs VARCHAR(10) }
 
+CREATE TABLE chords (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    I VARCHAR(10),
+    II VARCHAR(10),
+    III VARCHAR(10),
+    IV VARCHAR(10),
+    V VARCHAR(10),
+    VI VARCHAR(10),
+    VII VARCHAR(10)
+);
+
+CREATE TABLE userProg (
+    cs VARCHAR(10)
+);
 INSERT INTO chords (I, II, III, IV, V, VI, VII)
 VALUES
     ('C', 'Dm', 'Em', 'F', 'G', 'Am', 'Bdim'),

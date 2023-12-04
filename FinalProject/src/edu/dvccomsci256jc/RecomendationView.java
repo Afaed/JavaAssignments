@@ -17,7 +17,7 @@ public class RecomendationView extends Stage implements viewInterface{
 		key = userRoot;
 	}
 	public RecomendationView() {
-		 
+		 generateProg();
 		//User fields and labels.
 		rootChordTf.setEditable(false);
 		secondTf.setEditable(false);

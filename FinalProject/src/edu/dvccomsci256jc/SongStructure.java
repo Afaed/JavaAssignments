@@ -1,27 +1,26 @@
 package edu.dvccomsci256jc;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.*;
+import javafx.stage.Stage;
 
 public class SongStructure extends Stage {
     Scene scene;
     BorderPane mainPane;
-
+    FlowPane flowPane;
+    
     public SongStructure() {
-        mainPane = new BorderPane();
+    	 mainPane = new BorderPane();
+         flowPane = new FlowPane(); // Initialize the FlowPane
 
-        VBox buttonSection = createButtonSection();
-
+         VBox buttonSection = createButtonSection();
+         
         mainPane.setLeft(buttonSection);
-
+        mainPane.setCenter(flowPane);
         scene = new Scene(mainPane, 800, 600);
         setTitle("Song Structure");
         setScene(scene);
@@ -38,9 +37,7 @@ public class SongStructure extends Stage {
         Button dalSegnoBtn = createButton("Dal Segno");
         Button codaBtn = createButton("Coda");
 
-    	Label [] labels = {new Label("Label 1"), new Label("Label 2")};
-        ObservableList<Label> prevStructure = FXCollections.observableArrayList(labels);
-    	ComboBox<Label> cbo = new ComboBox<>(prevStructure);
+    	
 
         // Adding functionality to the buttons
         verseBtn.setOnAction(e -> generateAndMakeDraggableLabel("Verse"));
@@ -52,7 +49,7 @@ public class SongStructure extends Stage {
       
         buttonSection.getChildren().addAll(verseBtn, chorusBtn, 
         		bridgeBtn, songBreakBtn,
-        		dalSegnoBtn, codaBtn, cbo);
+        		dalSegnoBtn, codaBtn);
         
         return buttonSection;
     }
@@ -64,10 +61,8 @@ public class SongStructure extends Stage {
     private void generateAndMakeDraggableLabel(String labelText) {
         Label newLabel = createLabel(labelText);
         makeDraggable(newLabel);
-        
-        FlowPane flowPane = new FlowPane();
-        flowPane.getChildren().add(newLabel);
-        mainPane.setCenter(flowPane);
+
+        flowPane.getChildren().add(newLabel); // Add the label to the existing FlowPane
     }
 
     private Label createLabel(String text) {
@@ -75,11 +70,12 @@ public class SongStructure extends Stage {
         label.setStyle("-fx-background-color: lightblue; -fx-padding: 10;");
         return label;
     }
+    
     private void makeDraggable(Label label) {
         final double[] xOffset = new double[1];
         final double[] yOffset = new double[1];
 
-        label.setOnMouseDragged(e -> {
+        label.setOnMousePressed(e -> {
             xOffset[0] = e.getSceneX();
             yOffset[0] = e.getSceneY();
         });

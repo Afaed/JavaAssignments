@@ -15,6 +15,7 @@ public class Chords {
 	
 	public Chords(String chord) {
 		chord = this.chord;
+		chordOrder = new ArrayList<String>();
 		keyRootChord();
 	}
 	
@@ -30,29 +31,28 @@ public class Chords {
         //TO DO: Finish establishing connection of database. probably add it to javabooks?
         //Also-add username and password for later. 
         
-        String jdbcUrl = "jdbc:mysql://localhost:3306/UserDatabase";
+        String jdbcUrl = "jdbc:mysql://localhost:3306/chordBase";
 	     String username = "root";
 	     String password = "Test1234!";
 	     
 	     try(Connection c = DriverManager.getConnection(jdbcUrl, username, password)) {
-	    	 String getQuery = "SELECT I, II, III, IV, V, VI, VII FROM chords WHERE I = \'" + keyRoot + "\'"; //Query statement
-	    	 try (PreparedStatement prep = c.prepareStatement(getQuery))//Preoared statement
-	    	 {
-	    		 prep.setString(1, keyRoot);
-	    		 try(ResultSet r = prep.executeQuery()) //the result set
-	    		 {
-	    			 if (r.next()) {
-	                        // Add all columns to the generatedChords list
-	                        for (int i = 1; i <= 7; i++) {
-	                            chordOrder.add(r.getString(i));
-	                        }
-	                    }
-	    		 }
-	    	 }
-	     } catch (SQLException ex) {
-	    	 ex.printStackTrace();
-	       }
+	    	 String getQuery = "SELECT I, II, III, IV, V, VI, VII FROM chords WHERE I = '" + keyRoot + "'";
+	    	 try (PreparedStatement prep = c.prepareStatement(getQuery)) {
+	    		    // No need to set parameters, as they are directly included in the SQL query
 
-        return chordOrder;
+	    		    try (ResultSet r = prep.executeQuery()) {
+	    		        if (r.next()) {
+	    		            // Add all columns to the generatedChords list
+	    		            for (int i = 1; i <= 7; i++) {
+	    		                chordOrder.add(r.getString(i));
+	    		            }
+	    		        }
+	    		    }
+	    		}
+	     } catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return chordOrder;
     }
 }

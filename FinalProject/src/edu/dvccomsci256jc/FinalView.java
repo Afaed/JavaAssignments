@@ -1,7 +1,6 @@
 package edu.dvccomsci256jc;
 
 import javafx.scene.control.Label;
-
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -37,7 +36,7 @@ public class FinalView implements viewInterface{
 	nextBtn.setOnAction(e ->{
 		 pos++;
          model.next(pos);
-         recView.generateProg();
+         clearTextFields();
 	});
 	
 	saveBtn.setOnAction(e -> {
@@ -58,7 +57,8 @@ public class FinalView implements viewInterface{
 	});
 	
 	deleteBtn.setOnAction(e -> {
-		model.delete(1);
+		model.delete(pos);
+		clearTextFields();
 	});
 	GridPane gridPane = new GridPane();
 	
@@ -72,6 +72,7 @@ public class FinalView implements viewInterface{
      // Recommended Fields in the next column-for users
     gridPane.add(userLbl, col, 0);
     gridPane.add(userRootLbl, col, 1);
+  
     gridPane.add(userSecondLbl, col, 2);
     gridPane.add(userThirdLbl, col, 3);
     gridPane.add(userFourthLbl, col, 4);
@@ -80,15 +81,22 @@ public class FinalView implements viewInterface{
     gridPane.add(userSeventhLbl, col, 7);
 
     col++; // Move to the next column for the user text fields
-
+    String s;
     // User TextFields in the next column
     gridPane.add(userRootChordTf, col, 1);
+    gridPane.add(createPlaySoundButton(s = userRootChordTf.getText()), col + 1, 1);
     gridPane.add(userSecondTf, col, 2);
+    gridPane.add(createPlaySoundButton(s = userSecondTf.getText()), col + 1, 2);
     gridPane.add(userThirdTf, col, 3);
+    gridPane.add(createPlaySoundButton(s = userThirdTf.getText()), col + 1, 3);
     gridPane.add(userFourthTf, col, 4);
+    gridPane.add(createPlaySoundButton(s = userFourthTf.getText()), col + 1, 4);
     gridPane.add(userFifthTf, col, 5);
+    gridPane.add(createPlaySoundButton(s = userFifthTf.getText()), col + 1, 5);
     gridPane.add(userSixthTf, col, 6);
+    gridPane.add(createPlaySoundButton(s = userSixthTf.getText()), col + 1, 6);
     gridPane.add(userSeventhTf, col, 7);
+    gridPane.add(createPlaySoundButton(s = userSeventhTf.getText()), col + 1, 7);
     
  
     VBox buttonSection = new VBox(5);
@@ -105,6 +113,25 @@ public class FinalView implements viewInterface{
     gridPane.setAlignment(Pos.CENTER);
 	scene = new Scene(borderPane, 1000, 400);
 	
+	}
+
+	private Button createPlaySoundButton(String chord) {
+	    Button playSoundBtn = new Button("Play Sound");
+	    playSoundBtn.setOnAction(e -> model.playSound(chord));
+	    return playSoundBtn;
+	}
+
+
+	private void clearTextFields() {
+		// TODO Auto-generated method stub
+		userRootChordTf.clear();
+		userSecondTf.clear();
+		userThirdTf.clear();
+		userFourthTf.clear();
+		userFifthTf.clear();
+		userSixthTf.clear();
+		userSeventhTf.clear();
+		
 	}
 
 	public Scene getScene() {
